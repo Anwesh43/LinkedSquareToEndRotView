@@ -181,4 +181,27 @@ class SquareToEndRotView(ctx : Context) : View(ctx) {
             curr.startUpdating(cb)
         }
     }
+
+    data class Renderer(var view : SquareToEndRotView) {
+
+        private var ster : SquareToEndRot = SquareToEndRot(0)
+        private val animator : Animator = Animator(view)
+        private val paint : Paint = Paint(Paint.ANTI_ALIAS_FLAG)
+
+        fun render(canvas : Canvas) {
+            canvas.drawColor(backColor)
+            ster.draw(canvas, paint)
+            animator.animate {
+                ster.update {
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            ster.startUpdating {
+                animator.start()
+            }
+        }
+    }
 }
