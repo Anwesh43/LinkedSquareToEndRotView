@@ -25,3 +25,32 @@ fun Int.inverse() : Float = 1f / this
 fun Float.maxScale(i : Int, n : Int) : Float = Math.max(0f, this - i * n.inverse())
 fun Float.divideScale(i : Int, n : Int) : Float = Math.min(n.inverse(), maxScale(i, n)) * n
 fun Float.sinify() : Float = Math.sin(this * Math.PI).toFloat()
+
+
+fun Canvas.drawSquareToEndRot( scale : Float, w : Float, h : Float, paint : Paint) {
+    val sf : Float = scale.sinify()
+    val sf1 : Float = scale.divideScale(0, parts)
+    val sf2 : Float = scale.divideScale(1, parts)
+    val sf3 : Float = scale.divideScale(2, parts)
+    val sf4 : Float = scale.divideScale(3, parts)
+    val size : Float = Math.min(w, h) / sizeFactor
+    val rSize : Float = size * sf1
+    save()
+    translate(w / 2, h / 2)
+    rotate(rot * sf3)
+    for (i in 0..1) {
+        save()
+        scale(1f - 2 * i, 1f)
+        translate((w / 2 - size / 2) * sf2 + (h / 2 - w / 2) * sf4, 0f)
+        drawRect(RectF(-rSize / 2, -rSize / 2, rSize / 2, rSize / 2), paint)
+        restore()
+    }
+    restore()
+}
+
+fun Canvas.drawSTERNode(i : Int, scale : Float, paint : Paint) {
+    val w : Float = width.toFloat()
+    val h : Float = height.toFloat()
+    paint.color = Color.parseColor(colors[i])
+    drawSquareToEndRot(scale, w, h, paint)
+}
