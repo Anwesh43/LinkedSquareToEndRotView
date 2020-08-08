@@ -206,4 +206,13 @@ class SquareToEndRotView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    companion object {
+
+        fun create(activity : Activity) : SquareToEndRotView {
+            val view : SquareToEndRotView = SquareToEndRotView(activity)
+            activity.setContentView(view)
+            return view
+        }
+    }
 }
